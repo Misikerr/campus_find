@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusFind</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <div class="logo">
+        <span class="logo-icon">&#128269;</span>
+        <a href="#" style="text-decoration: none;"><span class="logo-text">CampusFind</span></a>
+      </div>
+    </div>
+    <nav>
+      <a href="#scroll">Browse Items</a>
+      <a href="#">How It Works</a>
+    </nav>
+    <div class="header-right">
+      <button class="report-btn"><span class="plus-icon">&#8853;</span> Report Item</button>
+    </div>
+  </header>
+    <!-- Report Modal -->
+    <div id="reportModal" class="modal-overlay">
+      <div class="modal-content">
+        <span class="modal-close" id="closeModal">&times;</span>
+        <h2>Report an Item</h2>
+        <p class="modal-subtitle">Fill in the details below to report a lost or found item.</p>
+        <div class="modal-toggle">
+          <button id="lostBtn" class="toggle-btn lost active">I Lost Something</button>
+          <button id="foundBtn" class="toggle-btn found">I Found Something</button>
+        </div>
+        <form class="modal-form" id="reportForm" action="post">
+          <label>Item Title </label>
+          <input type="text" id="reportTitle" placeholder="e.g., Black iPhone 14, Blue Backpack" required>
+          <label>Description </label>
+          <textarea id="reportDesc" placeholder="Provide detailed description of the item..." required></textarea>
+          <div class="modal-row">
+            <div class="modal-col">
+              <label>Category </label>
+              <select id="reportCategory" required>
+                <option value="Other">📦 Other</option>
+                <option value="Electronics">📱 Electronics</option>
+                <option value="Documents">📄 Documents</option>
+                <option value="Accessories">👓 Accessories</option>
+                <option value="Bags">🎒 Bags</option>
+                <option value="Books">📚 Books</option>
+              </select>
+            </div>
+              <div class="modal-col">
+                <label>Location </label>
+                <input list="locationOptions" id="reportLocation" placeholder="Library, Cafeteria, ..." required>
+                <datalist id="locationOptions">
+                  <option value="Library"></option>
+                  <option value="Cafeteria"></option>
+                  <option value="Main Building"></option>
+                  <option value="Sports Complex"></option>
+                  <option value="Auditorium"></option>
+                </datalist>
+              </div>
+          </div>
+          <label id="dateLabel">Date Lost</label>
+          <input type="date" id="reportDate" required>
+          <label>Image Upload (Optional)</label>
+          <input type="file" id="reportImage" accept="image/*">
+          <label>Manage PIN (only you can change status) </label>
+          <input type="text" id="reportPin" placeholder="e.g., 493821" pattern="[0-9]{4,8}" required>
+          <div class="modal-row">
+            <div class="modal-col">
+              <label>Your Name </label>
+              <input type="text" id="reportName" placeholder="John Doe" required>
+            </div>
+              <div class="modal-col">
+                <label>Your Phone </label>
+                <input type="tel" id="reportPhone" placeholder="09123456**" required>
+              </div>
+          </div>
+          <button type="submit" class="submit-btn">Submit Report</button>
+        </form>
+      </div>
+    </div>
+  <main>
+    <div class="badge">📍 Campus Lost &amp; Found</div>
+    <h1>
+      Lost Something? <span class="highlight">We've</span><br>
+      <span class="highlight">Got You  <span class="Covered">Covered</span>
+        </span>
+    </h1>
+    <p class="subtitle">
+      Report lost items, find what you're looking for, and help reunite belongings<br>
+      with their owners across campus.
+    </p>
+    <div class="actions">
+      <button class="report-btn main"><span class="plus-icon">&#8853;</span> Report an Item</button>
+      <a href="#scroll" class="browse-box" style="text-decoration: none;">
+        <span class="search-icon">&#128269;</span>
+        <span>Browse Items</span>
+      </a>
+    </div>
+    <div class="stats">
+      <div>
+        <span class="stat-number">6</span>
+        <span class="stat-label">Total Items</span>
+      </div>
+      <div>
+        <span class="stat-number found">3</span>
+        <span class="stat-label">Items Found</span>
+      </div>
+      <div>
+        <span class="stat-number lost">3</span>
+        <span class="stat-label">Items Lost</span>
+      </div>
+      <div>
+        <span class="stat-number owner">0</span>
+        <span class="stat-label">Owners Met</span>
+      </div>
+    </div>
+
+    <!-- Announcements Section -->
+    <section class="announcements-section" id="announcements" style="display: none;">
+      <h2>📢 Announcements</h2>
+      <div class="announcement-cards" id="announcementList">
+        <!-- Announcements load here -->
+      </div>
+    </section>
+
+    <div id="announcementModal" class="modal-overlay">
+      <div class="modal-content announcement-details-modal">
+        <span class="modal-close" id="closeAnnouncementModal">&times;</span>
+        <div class="announcement-modal-title" id="announcementModalTitle"></div>
+        <div class="announcement-modal-date" id="announcementModalDate"></div>
+        <div class="announcement-modal-image-wrap" id="announcementModalImageWrap">
+          <img id="announcementModalImage" src="" alt="Announcement image">
+        </div>
+        <div class="announcement-modal-text" id="announcementModalText"></div>
+      </div>
+    </div>
+
+    <!-- Recent Items Section -->
+    <section class="recent-items-section">
+      <h2 id="scroll">Recent Items</h2>
+      <p class="recent-subtitle">Browse through recently reported lost and found items</p>
+      <div class="recent-search-bar">
+        <div class="search-input-wrapper">
+          <span class="search-icon">&#128269;</span>
+          <input id="searchInput" type="text" placeholder="Search items...">
+        </div>
+        <select id="typeFilter">
+          <option value="all">All Items</option>
+          <option value="found">Found</option>
+          <option value="lost">Lost</option>
+        </select>
+        <select id="categoryFilter">
+          <option value="all">All Categories</option>
+        </select>
+        <select id="locationFilter">
+          <option value="all">All Locations</option>
+        </select>
+      </div>
+      <div class="item-cards" id="items">
+        <!-- Items load here -->
+      </div>
+    </section>
+
+    <!-- Owner Met Items Section -->
+    <section class="recent-items-section" id="owner-met">
+      <h2>Owner Met Items</h2>
+      <p class="recent-subtitle">Items marked as reunited with owners</p>
+      <div class="item-cards" id="ownerMetItems"></div>
+    </section>
+  </main>
+
+    <!-- Item Details Modal -->
+    <div id="itemDetailsModal" class="modal-overlay">
+      <div class="modal-content item-details-modal">
+        <span class="modal-close" id="closeItemModal">&times;</span>
+        <div class="item-modal-header">
+          <span id="itemStatus" class="item-status">Found</span>
+          <span id="itemCategory" class="item-category"><span class="cat-icon"></span> Electronics</span>
+        </div>
+        <div class="item-modal-title" id="itemTitle">iPhone 14 Pro - Space Black</div>
+        <div class="item-modal-img-wrap"><img id="itemImg" src="" alt="Item image"></div>
+        <div class="item-modal-desc" id="itemDesc"></div>
+        <div class="item-modal-meta">
+          <span class="item-meta"><span class="meta-icon">📍</span> <span id="itemLocation"></span></span>
+          <span class="item-meta"><span class="meta-icon">📅</span> <span id="itemDate"></span></span>
+          <span class="item-meta"><span class="meta-icon">🤝</span> <span id="itemOwnerMet"></span></span>
+        </div>
+        <hr>
+        <div class="item-modal-contact-title">Contact Information</div>
+        <div class="item-modal-contact-row"><span class="meta-icon">👤</span> <span id="itemOwner"></span></div>
+          <div class="item-modal-contact-row"><span class="meta-icon">📞</span> <span id="itemPhone"></span> <span id="copyPhone" style="cursor:pointer;" title="Copy Phone">📋</span></div>
+        <div class="item-modal-actions">
+          <button class="submit-btn" id="contactOwnerBtn">Call / Text</button>
+          <button class="submit-btn secondary" id="markOwnerMetBtn">Owner Met</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reviews Section -->
+    <section class="reviews" id="reviews">
+      <h2>Share Your Experience</h2>
+      <p class="recent-subtitle">Tell us if the platform helped you reunite items.</p>
+      <form id="reviewForm" class="review-form">
+        <div class="modal-row">
+          <div class="modal-col">
+            <label>Your Name </label>
+            <input type="text" id="reviewName" placeholder="Rio" required>
+          </div>
+          <div class="modal-col">
+            <label>Rating (1-5) </label>
+            <input type="number" id="reviewRating" min="1" max="5" value="5" required>
+          </div>
+        </div>
+        <label>Feedback </label>
+        <textarea id="reviewComment" placeholder="I found my ID in two days thanks to this platform!" required></textarea>
+        <button type="submit" class="submit-btn">Submit Review</button>
+      </form>
+      <div class="review-list" id="reviewList"></div>
+    </section>
+      <footer class="site-footer">
+        <div class="footer-content">
+          &copy; 2026 CampusFind. Helping reunite belongings with their owners.
+        </div>
+      </footer>
+  <script src="scripts.js?v=2"></script>
+</body>
+</html>
