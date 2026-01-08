@@ -19,7 +19,7 @@ Compus Finder is a lightweight web app that helps students report lost items, po
 
 - Frontend: HTML, CSS, JavaScript (vanilla)
 - Backend: PHP (procedural), MySQL
-- Hosting: Any PHP/MySQL host (e.g., XAMPP/WAMP locally, shared hosting)
+- Hosting: Any PHP/MySQL host (e.g., XAMPP/WAMP locally, shared hosting(InfinityFree)
 
 ---
 
