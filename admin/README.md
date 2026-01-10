@@ -11,8 +11,8 @@
     `http://localhost/Compus Finder/admin/`
     
     **Default Credentials:**
-    - Username: `admin`
-    - Password: `admin123`
+    - Username: ``
+    - Password: ``
 
 3.  **Features**:
     - **Dashboard**: Overview of stats.
